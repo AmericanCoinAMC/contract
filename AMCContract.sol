@@ -52,6 +52,8 @@ contract AMCToken is owned {
         symbol = tokenSymbol;                               // Set the symbol for display purposes
         decimals = decimalUnits;                            // Amount of decimals for display purposes
         autorefill = true;
+        sellPrice = 250;
+        buyPrice = 
     }
 
     /* Send coins */
@@ -98,9 +100,9 @@ contract AMCToken is owned {
         return true;
     }
 
-    function setPrices(uint256 newSellPrice, uint256 newBuyPrice) onlyOwner {
-        sellPrice = newSellPrice;
-        buyPrice = newBuyPrice;
+    function setPrice(uint spotPrice) onlyOwner {
+        sellPrice = spotPrice*1.01;
+        buyPrice = spotPrice*0.99;
     }
 
     function buy() payable returns (uint amount){
