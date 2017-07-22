@@ -1,0 +1,38 @@
+
+======= AMCContract.sol:AMCToken =======
+Gas estimation:
+construction:
+   infinite + 715600 = infinite
+external:
+   fallback:	533
+   allowance(address,address):	1022
+   approve(address,uint256):	20523
+   approveAndCall(address,uint256,bytes):	infinite
+   autorefill():	470
+   balanceOf(address):	715
+   buy():	infinite
+   buyPrice():	590
+   decimals():	495
+   die():	30832
+   name():	infinite
+   owner():	765
+   sell(uint256):	infinite
+   sellPrice():	524
+   setMinBalance(uint256):	20829
+   setPrice(uint256):	40751
+   standard():	infinite
+   symbol():	infinite
+   toggleAutorefil():	21024
+   totalSupply():	414
+   transfer(address,uint256):	infinite
+   transferFrom(address,address,uint256):	infinite
+
+======= AMCContract.sol:owned =======
+Gas estimation:
+construction:
+   20452 + 37800 = 58252
+external:
+   owner():	367
+
+======= AMCContract.sol:tokenRecipient =======
+Gas estimation:
