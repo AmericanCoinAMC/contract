@@ -14,9 +14,9 @@ contract owned {
         _;
     }
 
-    function transferOwnership(address newOwner) onlyOwner {
+    /* function transferOwnership(address newOwner) onlyOwner {
         owner = newOwner;
-    }
+    } */ // Not Going to the ball
 }
 
 contract AMCToken is owned {
@@ -38,8 +38,6 @@ contract AMCToken is owned {
     /* This generates a public event on the blockchain that will notify clients */
     event Transfer(address indexed from, address indexed to, uint256 value);
 
-    /* This notifies clients about the amount burnt */
-    event Burn(address indexed from, uint256 value);
 
     /* Initializes contract with initial supply tokens to the creator of the contract */
     function AMCToken(
@@ -53,7 +51,7 @@ contract AMCToken is owned {
         name = tokenName;                                   // Set the name for display purposes
         symbol = tokenSymbol;                               // Set the symbol for display purposes
         decimals = decimalUnits;                            // Amount of decimals for display purposes
-        autorefill = false;
+        autorefill = true;
     }
 
     /* Send coins */
