@@ -2,28 +2,28 @@
 ======= AMCContract.sol:AMCToken =======
 Gas estimation:
 construction:
-   infinite + 715600 = infinite
+   infinite + 792600 = infinite
 external:
    fallback:	533
-   allowance(address,address):	1022
-   approve(address,uint256):	20523
+   allowance(address,address):	1044
+   approve(address,uint256):	20545
    approveAndCall(address,uint256,bytes):	infinite
-   autorefill():	470
-   balanceOf(address):	715
+   autorefill():	492
+   balanceOf(address):	737
    buy():	infinite
-   buyPrice():	590
-   decimals():	495
-   die():	30832
+   buyPrice():	612
+   decimals():	517
+   die():	30854
    name():	infinite
-   owner():	765
-   sell(uint256):	infinite
-   sellPrice():	524
-   setMinBalance(uint256):	20829
-   setPrice(uint256):	40751
+   owner():	809
+   sell(uint256,string):	infinite
+   sellPrice():	546
+   setMinBalance(uint256):	20851
+   setPrices(uint256,uint256):	40467
    standard():	infinite
    symbol():	infinite
-   toggleAutorefil():	21024
-   totalSupply():	414
+   toggleAutorefil():	21046
+   totalSupply():	436
    transfer(address,uint256):	infinite
    transferFrom(address,address,uint256):	infinite
 
