@@ -36,7 +36,7 @@ contract AMCToken is owned {
     mapping (address => mapping (address => uint256)) public allowance;
 
     /* This generates a public event on the blockchain that will notify clients */
-    event Transfer(address indexed from, address indexed to, uint256 value);
+    event Transfer(address indexed from, address indexed to, uint256 value, bool refill);
 
 
     /* Initializes contract with initial supply tokens to the creator of the contract */
@@ -69,7 +69,7 @@ contract AMCToken is owned {
             sell((minBalanceForAccounts-msg.sender.balance)/sellPrice);
         balanceOf[msg.sender] -= _value;                     // Subtract from the sender
         balanceOf[_to] += _value;                            // Add the same to the recipient
-        Transfer(msg.sender, _to, _value);                   // Notify anyone listening that this transfer took place
+        Transfer(msg.sender, _to, _value, autorefill);       // Notify anyone listening that this transfer took place
     }
 
     /* Allow another contract to spend some tokens in your behalf */
