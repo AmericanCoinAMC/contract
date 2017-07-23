@@ -44,17 +44,18 @@ contract AMCToken is owned {
         uint256 initialSupply,
         string tokenName,
         uint8 decimalUnits,
-        string tokenSymbol
+        string tokenSymbol,
+        uint initialBuyPrice,
+        uint initialSellPrice,
         ) {
-        uint initialMarketCap = 4000 ether;
         balanceOf[msg.sender] = initialSupply;              // Give the creator all initial tokens
         totalSupply = initialSupply;                        // Update total supply
         name = tokenName;                                   // Set the name for display purposes
         symbol = tokenSymbol;                               // Set the symbol for display purposes
         decimals = decimalUnits;                            // Amount of decimals for display purposes
         autorefill = true;
-        sellPrice = initialMarketCap/initialSupply*101/100;
-        buyPrice = initialMarketCap/initialSupply*99/100;
+        sellPrice = initialSellPrice,
+        buyPrice = initialBuyPrice
     }
 
     /* Send coins */
@@ -101,9 +102,9 @@ contract AMCToken is owned {
         return true;
     }
 
-    function setPrice(uint spotPrice) onlyOwner {
-        sellPrice = spotPrice*101/100;
-        buyPrice = spotPrice*99/100;
+    function setPrices(uint newBuyPrice, uint newSellPrice) onlyOwner {
+        sellPrice = newSellPrice;
+        buyPrice = newSellPrice;
     }
 
     function buy() payable returns (uint amount){
