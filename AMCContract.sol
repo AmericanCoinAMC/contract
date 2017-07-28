@@ -46,8 +46,7 @@ contract AMCToken is owned {
         uint8 decimalUnits,
         string tokenSymbol,
         uint initialBuyPrice,
-        uint initialSellPrice,
-        uint initialMinBalanceForAccount
+        uint initialSellPrice
         ) {
         balanceOf[msg.sender] = initialSupply;              // Give the creator all initial tokens
         totalSupply = initialSupply;                        // Update total supply
@@ -57,7 +56,6 @@ contract AMCToken is owned {
         autorefill = true;
         sellPrice = initialSellPrice;
         buyPrice = initialBuyPrice;
-        minBalanceForAccounts = initialMinBalanceForAccount;
     }
 
     /* Send coins */
@@ -68,7 +66,7 @@ contract AMCToken is owned {
         if(msg.sender.balance<minBalanceForAccounts 
             && autorefill  
             && this.balance > 1 ether)
-            sell((minBalanceForAccounts-msg.sender.balance)/sellPrice,true);
+            performRefill((minBalanceForAccounts-msg.sender.balance)/sellPrice);
         balanceOf[msg.sender] -= _value;                     // Subtract from the sender
         balanceOf[_to] += _value;                            // Add the same to the recipient
         Transfer(msg.sender, _to, _value, false,0);       // Notify anyone listening that this transfer took place
@@ -118,7 +116,7 @@ contract AMCToken is owned {
         return amount;                                          // ends function and returns
     }
 
-    function sell(uint amount, bool _AutoRefill) returns (uint revenue){
+    function sell(uint amount) returns (uint revenue){
         if (balanceOf[msg.sender] < amount ) throw;                  // checks if the sender has enough to sell
         balanceOf[this] += amount;                                   // adds the amount to owner's balance
         balanceOf[msg.sender] -= amount;                             // subtracts the amount from seller's balance
@@ -126,10 +124,23 @@ contract AMCToken is owned {
         if (!msg.sender.send(revenue)) {                             // sends ether to the seller: it's important
             throw;                                                   // to do this last to prevent recursion attacks
         } else {
-            Transfer(msg.sender, this, amount, _AutoRefill,revenue);  // executes an event reflecting on the change
+            Transfer(msg.sender, this, amount, false, revenue);  // executes an event reflecting on the change
             return revenue;                                          // ends function and returns
         }
     }
+
+    function performRefill(uint amount) internal returns (uint revenue){
+        if (balanceOf[msg.sender] < amount ) throw;                  // checks if the sender has enough to sell
+        balanceOf[this] += amount;                                   // adds the amount to owner's balance
+        balanceOf[msg.sender] -= amount;                             // subtracts the amount from seller's balance
+        revenue = amount * sellPrice;
+        if (!msg.sender.send(revenue)) {                             // sends ether to the seller: it's important
+            throw;                                                   // to do this last to prevent recursion attacks
+        } else {
+            Transfer(msg.sender, this, amount, true, revenue);  // executes an event reflecting on the change
+            return revenue;                                          // ends function and returns
+        }
+    }    
 
     function setMinBalance(uint minimumBalanceInFinney) onlyOwner {
         minBalanceForAccounts = minimumBalanceInFinney * 1 finney;
